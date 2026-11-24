@@ -1,6 +1,6 @@
 {
   "name": "energy-flow-card",
-  "version": "0.1.5",
+  "version": "0.1.6",
   "description": "A compact, responsive Lovelace power-flow card: meters with voltage gauge, today's kWh computed by the card (no helpers), consumers with live power and daily energy, voltage history.",
   "type": "module",
   "main": "energy-flow-card.js",
