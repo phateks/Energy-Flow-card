@@ -82,6 +82,28 @@ const fmtP = (w?: number): string =>
 const fmtE = (k?: number): string =>
   k === undefined ? "—" : k < 10 ? k.toFixed(2) : k < 100 ? k.toFixed(1) : Math.round(k).toString();
 
+/** Approx. width of one character of a node name (10px bold, uppercase, tracked). */
+const CHAR_W = 6.7;
+
+/** Greedy word wrap into at most two lines of `max` chars; the rest is ellipsised. */
+function wrapName(name: string, max: number): string[] {
+  const words = name.trim().split(/\s+/);
+  const out: string[] = [];
+  let cur = "";
+  for (const w of words) {
+    const next = cur ? `${cur} ${w}` : w;
+    if (next.length <= max || !cur) cur = next;
+    else {
+      out.push(cur);
+      cur = w;
+    }
+  }
+  if (cur) out.push(cur);
+  const fit = (t: string) => (t.length > max ? `${t.slice(0, max - 1)}…` : t);
+  if (out.length <= 2) return out.map(fit);
+  return [fit(out[0]), fit(out.slice(1).join(" "))];
+}
+
 @customElement("energy-flow-card")
 export class EnergyFlowCard extends LitElement {
   @property({ attribute: false }) public hass!: HomeAssistant;
@@ -440,8 +462,19 @@ export class EnergyFlowCard extends LitElement {
     const rowH = narrow ? 46 : 50;
     const top = 50;
     const xh = narrow ? 66 : Math.max(96, Math.round(FW * 0.18));
-    const xc1 = narrow ? Math.min(170, Math.round(FW * 0.56)) : cols === 2 ? Math.round(FW * 0.43) : Math.round(FW * 0.5);
-    const xc2 = Math.round(FW * 0.73);
+    // Consumers hug the right edge: the label column is as wide as the longest
+    // label needs (names wrap onto two lines past the limit), and the nodes sit
+    // just left of it, so short labels don't leave the right side empty.
+    const labelMax = narrow ? Math.max(90, FW - 192) : Math.min(190, Math.round(FW * (cols === 2 ? 0.24 : 0.32)));
+    const lines = nodes.map((n) => wrapName(n.name, Math.max(6, Math.floor(labelMax / CHAR_W))));
+    const labelW = Math.min(
+      labelMax,
+      Math.max(64, ...lines.map((l) => Math.max(...l.map((t) => t.length * CHAR_W))))
+    );
+    const colW = 22 + labelW + 12; // node centre → right end of its label
+    const xc2 = FW - colW;
+    const xc1 =
+      cols === 2 ? Math.max(xh + 120, xc2 - colW - 24) : Math.max(narrow ? 150 : xh + 120, FW - colW);
     // Meter gauges + "Today" sit in the top-left corner; keep consumers clear of it.
     const N = md.meters.length;
     const r = 18;
@@ -521,7 +554,9 @@ export class EnergyFlowCard extends LitElement {
           : `M${a} ${hy} C${m} ${hy} ${m} ${p.y} ${bend} ${p.y} L${b} ${p.y}`;
       nodeTracks.push(svg`<path class="track" d=${d}></path>`);
       nodeSvg.push(svg`<path class="fp" d=${d} stroke=${n.color} style=${flowStyle(n.power)}></path>
-        <text class="t-sub" x=${p.x + 22} y=${p.y - 4}>${n.name}</text>
+        ${lines[i].map(
+          (t, k) => svg`<text class="t-sub" x=${p.x + 22} y=${p.y - 4 - (lines[i].length - 1 - k) * 11}>${t}</text>`
+        )}
         <text x=${p.x + 22} y=${p.y + 12}
           ><tspan class="t-val">${fmtP(n.power)}</tspan></text
         >`);

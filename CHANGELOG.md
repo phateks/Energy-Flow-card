@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.6] - 2026-11-24
+
+### Changed
+- Consumers hug the right edge: the label column is sized to the longest label,
+  so short names no longer leave the right side empty.
+- Long consumer names wrap onto two lines (ellipsised beyond that).
+
 ## [0.1.4] - 2026-11-24
 
 ### Fixed

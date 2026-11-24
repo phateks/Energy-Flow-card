@@ -270,54 +270,54 @@ function t(t,e,s,i){var o,n=arguments.length,r=n<3?e:null===i?i=Object.getOwnPro
         <div class="tile flow">${h}</div>
         ${d}${p}
       </div>
-    </ha-card>`}renderFlow(t,e,s,i,o,n){let r=t.nodes;if(i){const t=r.slice(o-2);r=[...r.slice(0,o-2),{name:n.rest,icon:"mdi:dots-horizontal",color:Ot,power:Yt(t.map(t=>t.power)),today:Yt(t.map(t=>t.today))}]}const a=r.length,c=!s&&a>7?2:1,l=Math.ceil(a/c),h=s?46:50,d=s?66:Math.max(96,Math.round(.18*e)),p=s?Math.min(170,Math.round(.56*e)):2===c?Math.round(.43*e):Math.round(.5*e),f=Math.round(.73*e),u=t.meters.length,g=t.meters.map((t,e)=>({x:26+44*e,y:26})),m=u?g[u-1].x+18+9:8,v=m+85>p-17?56:0,$=Math.max(l*h+(2===c?h/2:0)+16+v,172),y=Math.max(96,Math.round($/2-12)),x=(v+$)/2,w=r.map((t,e)=>{if(1===c)return{x:p,y:Math.round(x+(e-(a-1)/2)*h)};const s=e%2,i=Math.ceil(a/2),o=Math.floor(e/2);return{x:s?f:p,y:Math.round(x+(o-(i-1)/2)*h-h/4+(s?h/2:0))}}),b=this.config.idle_threshold??Pt,_=t=>{const e=t??0;return`opacity:${void 0!==t&&t>b?1:0};stroke-width:${(2+Math.min(4,e/500)).toFixed(1)}px;animation-duration:${Math.max(.25,1.6-e/1800).toFixed(2)}s`},k=2*Math.PI*18,A=this.config.voltage_min??kt,E=this.config.voltage_max??At,M=[],S=[];t.meters.forEach((t,e)=>{const s=g[e],i=d+16*(e-(u-1)/2),o=`M${s.x} ${s.y+18+3} C${s.x} ${y-48} ${i} ${y-58} ${i} ${y-34}`;S.push(V`<path class="track" d=${o}></path>`),M.push(V`<path class="fp" d=${o} stroke=${"#8fb3ff"} style=${_(t.power)}></path>`);const n=void 0===t.voltage?0:Math.max(0,Math.min(1,(t.voltage-Et)/(Mt-Et))),r=void 0===t.voltage||t.voltage>=A&&t.voltage<=E;M.push(V`
+    </ha-card>`}renderFlow(t,e,s,i,o,n){let r=t.nodes;if(i){const t=r.slice(o-2);r=[...r.slice(0,o-2),{name:n.rest,icon:"mdi:dots-horizontal",color:Ot,power:Yt(t.map(t=>t.power)),today:Yt(t.map(t=>t.today))}]}const a=r.length,c=!s&&a>7?2:1,l=Math.ceil(a/c),h=s?46:50,d=s?66:Math.max(96,Math.round(.18*e)),p=s?Math.max(90,e-192):Math.min(190,Math.round(e*(2===c?.24:.32))),f=r.map(t=>function(t,e){const s=t.trim().split(/\s+/),i=[];let o="";for(const t of s){const s=o?`${o} ${t}`:t;s.length<=e||!o?o=s:(i.push(o),o=t)}o&&i.push(o);const n=t=>t.length>e?`${t.slice(0,e-1)}…`:t;return i.length<=2?i.map(n):[n(i[0]),n(i.slice(1).join(" "))]}(t.name,Math.max(6,Math.floor(p/6.7)))),u=Math.min(p,Math.max(64,...f.map(t=>Math.max(...t.map(t=>6.7*t.length))))),g=22+u+12,m=e-g,v=2===c?Math.max(d+120,m-g-24):Math.max(s?150:d+120,e-g),$=t.meters.length,y=t.meters.map((t,e)=>({x:26+44*e,y:26})),x=$?y[$-1].x+18+9:8,w=x+85>v-17?56:0,b=Math.max(l*h+(2===c?h/2:0)+16+w,172),_=Math.max(96,Math.round(b/2-12)),k=(w+b)/2,A=r.map((t,e)=>{if(1===c)return{x:v,y:Math.round(k+(e-(a-1)/2)*h)};const s=e%2,i=Math.ceil(a/2),o=Math.floor(e/2);return{x:s?m:v,y:Math.round(k+(o-(i-1)/2)*h-h/4+(s?h/2:0))}}),E=this.config.idle_threshold??Pt,M=t=>{const e=t??0;return`opacity:${void 0!==t&&t>E?1:0};stroke-width:${(2+Math.min(4,e/500)).toFixed(1)}px;animation-duration:${Math.max(.25,1.6-e/1800).toFixed(2)}s`},S=2*Math.PI*18,C=this.config.voltage_min??kt,P=this.config.voltage_max??At,U=[],O=[];t.meters.forEach((t,e)=>{const s=y[e],i=d+16*(e-($-1)/2),o=`M${s.x} ${s.y+18+3} C${s.x} ${_-48} ${i} ${_-58} ${i} ${_-34}`;O.push(V`<path class="track" d=${o}></path>`),U.push(V`<path class="fp" d=${o} stroke=${"#8fb3ff"} style=${M(t.power)}></path>`);const n=void 0===t.voltage?0:Math.max(0,Math.min(1,(t.voltage-Et)/(Mt-Et))),r=void 0===t.voltage||t.voltage>=C&&t.voltage<=P;U.push(V`
         <circle class="ring-bg" cx=${s.x} cy=${s.y} r=${18} stroke-width="4"
-          stroke-dasharray="${(.75*k).toFixed(1)} ${k.toFixed(1)}" stroke-linecap="round"
+          stroke-dasharray="${(.75*S).toFixed(1)} ${S.toFixed(1)}" stroke-linecap="round"
           transform="rotate(135 ${s.x} ${s.y})"></circle>
         <circle class="gauge" cx=${s.x} cy=${s.y} r=${18} stroke-width="4"
           stroke=${r?"var(--efc-ok)":"var(--efc-warn)"}
-          stroke-dasharray="${(.75*k*n).toFixed(1)} ${k.toFixed(1)}"
-          transform="rotate(135 ${s.x} ${s.y})"></circle>`)});const C=this.config.total_energy??this.config.total_power??t.meters.find(t=>t.cfg.energy)?.cfg.energy??t.meters[0]?.cfg.power,P=Yt(r.map(t=>t.power))??0,U=2*Math.PI*30;let O=0;const z=[],R=[],T=[];return r.forEach((t,e)=>{const s=w[e],i=d+34,o=s.x-17,n=s.x===f&&2===c?p-26:o,r=(i+n)/2,a=n===o?`M${i} ${y} C${r} ${y} ${r} ${s.y} ${o} ${s.y}`:`M${i} ${y} C${r} ${y} ${r} ${s.y} ${n} ${s.y} L${o} ${s.y}`;R.push(V`<path class="track" d=${a}></path>`),T.push(V`<path class="fp" d=${a} stroke=${t.color} style=${_(t.power)}></path>
-        <text class="t-sub" x=${s.x+22} y=${s.y-4}>${t.name}</text>
+          stroke-dasharray="${(.75*S*n).toFixed(1)} ${S.toFixed(1)}"
+          transform="rotate(135 ${s.x} ${s.y})"></circle>`)});const z=this.config.total_energy??this.config.total_power??t.meters.find(t=>t.cfg.energy)?.cfg.energy??t.meters[0]?.cfg.power,R=Yt(r.map(t=>t.power))??0,T=2*Math.PI*30;let N=0;const H=[],F=[],D=[];return r.forEach((t,e)=>{const s=A[e],i=d+34,o=s.x-17,n=s.x===m&&2===c?v-26:o,r=(i+n)/2,a=n===o?`M${i} ${_} C${r} ${_} ${r} ${s.y} ${o} ${s.y}`:`M${i} ${_} C${r} ${_} ${r} ${s.y} ${n} ${s.y} L${o} ${s.y}`;F.push(V`<path class="track" d=${a}></path>`),D.push(V`<path class="fp" d=${a} stroke=${t.color} style=${M(t.power)}></path>
+        ${f[e].map((t,i)=>V`<text class="t-sub" x=${s.x+22} y=${s.y-4-11*(f[e].length-1-i)}>${t}</text>`)}
         <text x=${s.x+22} y=${s.y+12}
           ><tspan class="t-val">${Qt(t.power)}</tspan></text
-        >`);const l=P>0?(t.power??0)/P:0;z.push(V`<circle class="seg" cx=${d} cy=${y} r="30" stroke-width="6" stroke=${t.color}
-        stroke-dasharray="${Math.max(0,U*l-7).toFixed(1)} ${U.toFixed(1)}"
-        stroke-dashoffset="${(-O-3.5).toFixed(1)}"
-        style="opacity:${l>.02?1:0}"></circle>`),O+=U*l}),L`
-      <div class="canvas" style="width:${e}px;height:${$}px">
-        <svg width=${e} height=${$} viewBox="0 0 ${e} ${$}">
-          ${S}${R}${M}${T}
-          <text class="t-sub" x=${m} y="17">${n.today}</text>
-          <text x=${m} y="38"
+        >`);const l=R>0?(t.power??0)/R:0;H.push(V`<circle class="seg" cx=${d} cy=${_} r="30" stroke-width="6" stroke=${t.color}
+        stroke-dasharray="${Math.max(0,T*l-7).toFixed(1)} ${T.toFixed(1)}"
+        stroke-dashoffset="${(-N-3.5).toFixed(1)}"
+        style="opacity:${l>.02?1:0}"></circle>`),N+=T*l}),L`
+      <div class="canvas" style="width:${e}px;height:${b}px">
+        <svg width=${e} height=${b} viewBox="0 0 ${e} ${b}">
+          ${O}${F}${U}${D}
+          <text class="t-sub" x=${x} y="17">${n.today}</text>
+          <text x=${x} y="38"
             ><tspan class="t-today">${Xt(t.totalE)}</tspan><tspan class="t-unit" dx="3">kWh</tspan></text
           >
-          <circle class="ring-bg" cx=${d} cy=${y} r="30" stroke-width="6"></circle>
-          <g transform="rotate(-90 ${d} ${y})">${z}</g>
-          <text class="t-big" x=${d} y=${y+52} text-anchor="middle">${Qt(t.totalP)}</text>
-          <text class="t-sub" x=${d} y=${y+66} text-anchor="middle">${n.now}</text>
+          <circle class="ring-bg" cx=${d} cy=${_} r="30" stroke-width="6"></circle>
+          <g transform="rotate(-90 ${d} ${_})">${H}</g>
+          <text class="t-big" x=${d} y=${_+52} text-anchor="middle">${Qt(t.totalP)}</text>
+          <text class="t-sub" x=${d} y=${_+66} text-anchor="middle">${n.now}</text>
         </svg>
         ${t.meters.map((t,e)=>L`<div
             class="meter-icon"
             title=${t.name}
-            style="left:${g[e].x-18}px;top:${g[e].y-18}px"
+            style="left:${y[e].x-18}px;top:${y[e].y-18}px"
             @click=${()=>this.moreInfo(t.cfg.power??t.cfg.voltage??t.cfg.energy)}
           >
             <ha-icon .icon=${t.icon}></ha-icon>
           </div>`)}
-        <div class="hit" style="left:${m}px;top:4px;width:110px;height:40px" @click=${()=>this.moreInfo(C)}></div>
-        <div class="house" style="left:${d-20}px;top:${y-20}px"><ha-icon icon="mdi:home-lightning-bolt-outline"></ha-icon></div>
+        <div class="hit" style="left:${x}px;top:4px;width:110px;height:40px" @click=${()=>this.moreInfo(z)}></div>
+        <div class="house" style="left:${d-20}px;top:${_-20}px"><ha-icon icon="mdi:home-lightning-bolt-outline"></ha-icon></div>
         ${r.map((t,s)=>L`<div
               class="node"
               title=${t.name}
-              style="--c:${t.color};left:${w[s].x-14.5}px;top:${w[s].y-14.5}px"
+              style="--c:${t.color};left:${A[s].x-14.5}px;top:${A[s].y-14.5}px"
               @click=${()=>this.moreInfo(t.entity)}
             >
               <ha-icon .icon=${t.icon}></ha-icon>
             </div>
             <div
               class="hit"
-              style="left:${w[s].x+18}px;top:${w[s].y-16}px;width:${Math.max(40,e-w[s].x-18)}px;height:32px"
+              style="left:${A[s].x+18}px;top:${A[s].y-16}px;width:${Math.max(40,e-A[s].x-18)}px;height:32px"
               @click=${()=>this.moreInfo(t.entity)}
             ></div>`)}
       </div>
