@@ -85,6 +85,8 @@ consumers:
 | --- | --- | --- |
 | `title` | `Home Energy` | Card title |
 | `icon` | `mdi:lightning-bolt` | Title icon |
+| `total_power` | | House total power sensor, read as is (not summed). Takes priority over meters/consumers |
+| `total_energy` | | House total energy sensor, preferred for *Today* |
 | `meters` | `[]` | Supply-side meters (see below) |
 | `consumers` | `[]` | Measured loads (see below) |
 | `show_unmeasured` | `true` | Show meters − consumers as its own node |
@@ -116,6 +118,11 @@ consumers:
 | `energy` | Optional cumulative energy for *Today*; otherwise `power` is integrated |
 
 ## Notes
+
+- **Where does the total come from?** In order: `total_power` / `total_energy`
+  sensors → sum of `meters` → sum of `consumers` (only if nothing else is set).
+  A consumer that uses the same sensor as the total or a meter is ignored, so the
+  total never appears twice.
 
 - *Today* from a power sensor is as accurate as the sensor's reporting rate.
   An energy sensor from the meter itself is always preferable.

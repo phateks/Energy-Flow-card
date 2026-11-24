@@ -30,6 +30,12 @@ export interface EnergyFlowCardConfig extends LovelaceCardConfig {
   icon?: string;
   meters?: MeterConfig[];
   consumers?: ConsumerConfig[];
+  /**
+   * House total, read directly from sensors. Takes priority over the sum of
+   * meters / consumers. Use this when you have one sensor for the whole house.
+   */
+  total_power?: string;
+  total_energy?: string;
   /** Show the "unmeasured" node (meters total − consumers). Default true. */
   show_unmeasured?: boolean;
   unmeasured_name?: string;

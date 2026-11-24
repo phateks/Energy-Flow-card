@@ -13,6 +13,8 @@ const grid = (schema: unknown[]) => ({ type: "grid", name: "", schema });
 
 const MAIN_SCHEMA = [
   grid([text("title"), { name: "icon", selector: { icon: {} } }]),
+  ent("total_power", "power"),
+  ent("total_energy", "energy"),
   grid([{ name: "show_unmeasured", selector: { boolean: {} } }, text("unmeasured_name")]),
   grid([num("max_flow_nodes"), num("voltage_hours", 0.5)]),
   grid([num("voltage_min"), num("voltage_max")]),
@@ -37,6 +39,8 @@ const CONSUMER_SCHEMA = [
 const LABELS: Record<string, string> = {
   title: "Title",
   icon: "Icon",
+  total_power: "House total power sensor (optional – read as is, not summed)",
+  total_energy: "House total energy sensor (optional – preferred for Today)",
   show_unmeasured: "Show unmeasured (meters − consumers)",
   unmeasured_name: "Unmeasured name",
   max_flow_nodes: `Phone: max nodes before grouping (default ${DEFAULTS.max_flow_nodes})`,

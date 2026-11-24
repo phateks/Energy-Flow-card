@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.3] - 2026-11-24
+
+### Added
+- `total_power` / `total_energy`: read the house total directly from a sensor instead
+  of summing consumers. Also in the visual editor.
+
 ## [0.1.1] - 2026-11-24
 
 ### Fixed

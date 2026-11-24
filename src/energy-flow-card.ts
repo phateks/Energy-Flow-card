@@ -173,6 +173,7 @@ export class EnergyFlowCard extends LitElement {
     const ids: string[] = [];
     for (const m of this.meters) ids.push(...[m.power, m.voltage, m.current, m.energy].filter(Boolean) as string[]);
     for (const c of this.consumers) ids.push(...[c.power, c.energy].filter(Boolean) as string[]);
+    ids.push(...([this.config?.total_power, this.config?.total_energy].filter(Boolean) as string[]));
     return ids;
   }
 
@@ -231,12 +232,15 @@ export class EnergyFlowCard extends LitElement {
     try {
       const counterIds: string[] = [];
       const powerIds: string[] = [];
-      for (const x of [...this.meters, ...this.consumers]) {
+      const total = { power: this.config.total_power, energy: this.config.total_energy };
+      for (const x of [total, ...this.meters, ...this.consumers]) {
         if (x.energy) counterIds.push(x.energy);
         else if (x.power) powerIds.push(x.power);
       }
       const meterPower = this.meters.map((m) => m.power).filter(Boolean) as string[];
-      const peakIds = meterPower.length
+      const peakIds = total.power
+        ? [total.power]
+        : meterPower.length
         ? meterPower
         : (this.consumers.map((c) => c.power).filter(Boolean) as string[]);
       const hours = this.config.voltage_hours ?? DEFAULTS.voltage_hours;
@@ -288,7 +292,11 @@ export class EnergyFlowCard extends LitElement {
     }));
     // A consumer pointing at a meter's own sensor is the house total, not a load:
     // drop it so the total doesn't show up twice.
-    const meterIds = new Set(this.meters.flatMap((m) => [m.power, m.energy]).filter(Boolean) as string[]);
+    const meterIds = new Set(
+      [...this.meters.flatMap((m) => [m.power, m.energy]), this.config.total_power, this.config.total_energy].filter(
+        Boolean
+      ) as string[]
+    );
     const consumerCfgs = this.consumers.filter(
       (c) => !(c.power && meterIds.has(c.power)) && !(c.energy && meterIds.has(c.energy))
     );
@@ -308,8 +316,13 @@ export class EnergyFlowCard extends LitElement {
       };
     });
 
-    const meterP = sum(meters.map((m) => m.power));
-    const meterE = sum(meters.map((m) => m.today));
+    // House total: dedicated sensor > sum of meters > sum of consumers.
+    const tp = this.config.total_power;
+    const te = this.config.total_energy;
+    const sensorP = powerW(hass, tp);
+    const sensorE = te ? todayKWh(hass, te, this.bases[te]) : tp ? todayKWh(hass, tp, this.bases[tp]) : undefined;
+    const meterP = sensorP ?? sum(meters.map((m) => m.power));
+    const meterE = sensorE ?? sum(meters.map((m) => m.today));
     const consP = sum(cons.map((c) => c.power));
     const consE = sum(cons.map((c) => c.today));
     const totalP = meterP ?? consP;
@@ -485,7 +498,7 @@ export class EnergyFlowCard extends LitElement {
           stroke-dasharray="${(Cg * 0.75 * frac).toFixed(1)} ${Cg.toFixed(1)}"
           transform="rotate(135 ${p.x} ${p.y})"></circle>`);
     });
-    const todayEntity = md.meters.find((m) => m.cfg.energy)?.cfg.energy ?? md.meters[0]?.cfg.power;
+    const todayEntity = this.config.total_energy ?? this.config.total_power ?? md.meters.find((m) => m.cfg.energy)?.cfg.energy ?? md.meters[0]?.cfg.power;
 
     // ---- consumers ----
     const T = sum(nodes.map((n) => n.power)) ?? 0;
