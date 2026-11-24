@@ -81,7 +81,7 @@ export class EnergyFlowCardEditor extends LitElement implements LovelaceCardEdit
     return html`
       <ha-form
         .hass=${this.hass}
-        .data=${this._config}
+        .data=${{ show_unmeasured: true, ...this._config }}
         .schema=${MAIN_SCHEMA}
         .computeLabel=${this._label}
         @value-changed=${this._mainChanged}

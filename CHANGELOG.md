@@ -1,5 +1,10 @@
 # Changelog
 
+## [0.1.4] - 2026-11-24
+
+### Fixed
+- Editor: "Show unmeasured" now shows as on by default, matching the card.
+
 ## [0.1.3] - 2026-11-24
 
 ### Added
