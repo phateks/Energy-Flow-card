@@ -286,7 +286,13 @@ export class EnergyFlowCard extends LitElement {
         ? todayKWh(hass, m.power, this.bases[m.power])
         : undefined,
     }));
-    const cons: Node[] = this.consumers.map((c, i) => {
+    // A consumer pointing at a meter's own sensor is the house total, not a load:
+    // drop it so the total doesn't show up twice.
+    const meterIds = new Set(this.meters.flatMap((m) => [m.power, m.energy]).filter(Boolean) as string[]);
+    const consumerCfgs = this.consumers.filter(
+      (c) => !(c.power && meterIds.has(c.power)) && !(c.energy && meterIds.has(c.energy))
+    );
+    const cons: Node[] = consumerCfgs.map((c, i) => {
       const ent = c.power ?? c.energy;
       return {
         name: c.name ?? this.friendly(ent) ?? `Load ${i + 1}`,
@@ -310,7 +316,7 @@ export class EnergyFlowCard extends LitElement {
     const totalE = meterE ?? consE;
 
     const nodes = [...cons];
-    if (this.config.show_unmeasured !== false && (meterP !== undefined || meterE !== undefined)) {
+    if (this.config.show_unmeasured !== false && cons.length > 0 && (meterP !== undefined || meterE !== undefined)) {
       nodes.push({
         name: this.config.unmeasured_name ?? DEFAULTS.unmeasured_name,
         icon: "mdi:help-circle-outline",
