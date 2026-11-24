@@ -523,12 +523,7 @@ export class EnergyFlowCard extends LitElement {
       nodeSvg.push(svg`<path class="fp" d=${d} stroke=${n.color} style=${flowStyle(n.power)}></path>
         <text class="t-sub" x=${p.x + 22} y=${p.y - 4}>${n.name}</text>
         <text x=${p.x + 22} y=${p.y + 12}
-          ><tspan class="t-val">${fmtP(n.power)}</tspan
-          >${n.today !== undefined
-            ? svg`<tspan dx="6" style="fill:${n.color === UNMEASURED_COLOR ? "var(--efc-sub)" : n.color};font-size:11px;font-weight:600">${fmtE(
-                n.today
-              )} kWh</tspan>`
-            : nothing}</text
+          ><tspan class="t-val">${fmtP(n.power)}</tspan></text
         >`);
       const fr = T > 0 ? (n.power ?? 0) / T : 0;
       segs.push(svg`<circle class="seg" cx=${xh} cy=${hy} r="30" stroke-width="6" stroke=${n.color}
