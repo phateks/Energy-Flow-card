@@ -1,0 +1,37 @@
+{
+  "name": "energy-flow-card",
+  "version": "0.1.0",
+  "description": "A compact, responsive Lovelace power-flow card: meters with voltage gauge, today's kWh computed by the card (no helpers), consumers with live power and daily energy, voltage history.",
+  "type": "module",
+  "main": "energy-flow-card.js",
+  "scripts": {
+    "build": "rollup -c",
+    "watch": "rollup -c --watch",
+    "lint": "echo \"(no lint configured)\""
+  },
+  "keywords": [
+    "home-assistant",
+    "homeassistant",
+    "lovelace",
+    "custom-card",
+    "energy",
+    "power-flow",
+    "consumption"
+  ],
+  "author": "Vlad",
+  "license": "MIT",
+  "dependencies": {
+    "custom-card-helpers": "^1.9.0",
+    "lit": "^3.1.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.1.0",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.9.6",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3"
+  }
+}
