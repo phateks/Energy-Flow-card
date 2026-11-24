@@ -1,6 +1,6 @@
 import { LovelaceCardConfig } from "custom-card-helpers";
 
-export const CARD_VERSION = "0.1.0";
+export const CARD_VERSION = "0.1.1";
 
 /** A measuring device on the supply side (grid meter, sub-meter...). */
 export interface MeterConfig {
